@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}<title>Deck details</title>{% endblock title %}
+
+{% block content %}
+<h1>{{ object.title }} ({{ object.cefr_level }})</h1>
+<p>{{ object.description }}</p>
+<p>{{ object.topic }}</p>
+<h2>Cards</h2>
+{% for card in object.cards.all %}
+<h3>{{ card.word }} - {{ card.translation }}</h3>
+<p>{{ card.description }}</p>
+{% endfor %}
+<p><a href="{% url 'deck_edit' object.pk %}">edit</a></p>
+<p><a href="{% url 'deck_list' %}"><- back</a></p>
+{% endblock content %}

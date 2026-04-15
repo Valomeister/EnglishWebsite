@@ -1,0 +1,36 @@
+<!--<form method="post">
+    {% csrf_token %}
+
+    <h3>Deck info</h3>
+    {{ form.as_p }}
+
+    <h3>Cards</h3>
+    {{ formset.management_form }}
+
+    {% for card_form in formset %}
+        <div class="card-form-row">
+            {{ card_form.as_p }}
+        </div>
+    {% endfor %}
+
+    <button type="submit">Save</button>
+</form>-->
+
+
+<form method="post">
+    {% csrf_token %}
+
+    <h2>Edit deck</h2>
+    {{ form.as_p }}
+
+    <h3>Decks formset</h3>
+    {{ formset.management_form }}
+
+    {% for deck_form in formset %}
+        <div class="deck-form-row">
+            {{ deck_form.as_p }}
+        </div>
+    {% endfor %}
+
+    <button type="submit">Save</button>
+</form>
