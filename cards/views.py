@@ -38,5 +38,6 @@ def edit_deck_with_cards(request, pk):
     return render(request, 'deck_edit.html', {
         'form': form,
         'formset': formset,
+        'pk': pk
     })
 

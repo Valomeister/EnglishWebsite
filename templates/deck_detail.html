@@ -3,14 +3,41 @@
 {% block title %}<title>Deck details</title>{% endblock title %}
 
 {% block content %}
-<h1>{{ object.title }} ({{ object.cefr_level }})</h1>
-<p>{{ object.description }}</p>
-<p>{{ object.topic }}</p>
-<h2>Cards</h2>
-{% for card in object.cards.all %}
-<h3>{{ card.word }} - {{ card.translation }}</h3>
-<p>{{ card.description }}</p>
-{% endfor %}
-<p><a href="{% url 'deck_edit' object.pk %}">edit</a></p>
-<p><a href="{% url 'deck_list' %}"><- back</a></p>
+<div class="d-flex flex-column bg-dark p-3 my-4 rounded gap-3">
+    <div class="field_wrapper d-flex flex-column align-items-start gap-2">
+        <div>
+            <span class="badge text-dark {{ deck.cefr_level }}">{{ object.cefr_level }}</span>
+            <small class="ms-2">{{ object.topic.name }}</small>
+        </div>
+        <h1 class="mb-0 mt-2">{{ object.title }}</h1>
+        <p class="my-2">{{ object.description }}</p>
+        <a href="{% url 'deck_edit' object.pk %}" class="button">Edit</a>
+    </div>
+
+</div>
+
+<div class="row g-3" id="formset-container">
+    {% for card in object.cards.all %}
+        <div class="col col-3">
+            <div class="card dect_detail-card bg-dark text-light">
+
+                <div class="card-header bg-black">
+                    <h3 class="m-0 fs-4">{{ card.word }}</h3>
+                </div>
+
+                <div class="card-body d-flex flex-column">
+
+                    <div class="card-title fw-bold">
+                        {{ card.translation }}
+                    </div>
+
+                    <div class="card-text overflow-hidden">
+                        {{ card.description }}
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    {% endfor %}
 {% endblock content %}

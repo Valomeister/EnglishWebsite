@@ -3,10 +3,52 @@
 {% block title %}<title>Decks</title>{% endblock title %}
 
 {% block content %}
-<h1>Decks list</h1>
-{% for deck in deck_list %}
-<h2><a href="{% url 'deck_detail' deck.pk %}">{{ deck.title }} ({{ deck.cefr_level }})</a></h2>
-<p>{{ deck.description }}</p>
-<p>{{ deck.topic.name }}</p>
-{% endfor %}
+<div class=" mb-4 mt-5">
+    <h1 class="display-5">My decks</h1>
+</div>
+<p class="mt-5">
+    Manage your personal flashcard decks in one place. Create new decks,
+    edit existing ones, organize vocabulary by topic, and track your
+    learning progress. Use your decks for daily practice or expand
+    them anytime with new words and phrases.
+</p>
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-5">
+    {% for deck in deck_list %}
+    <div class="col">
+        <div class="card h-100 shadow-sm border-0 bg-dark text-light">
+            <div class="card-header bg-transparent border-0 pt-3">
+                <span class="badge text-dark {{ deck.cefr_level }}">{{ deck.cefr_level }}</span>
+                <small class="ms-2">{{ deck.topic.name }}</small>
+            </div>
+
+            <div class="card-body pt-0">
+                <h5 class="card-title h4">
+                    <h2 class="text-light">
+                        {{ deck.title }}
+                    </h2>
+                </h5>
+                <p class="card-text">
+                    {{ deck.description|truncatewords:20 }}
+                </p>
+            </div>
+
+            <div class="card-footer bg-transparent border-0 pb-3">
+                <a href="{% url 'deck_detail' deck.pk %}" class="button">
+                    Open Deck
+                </a>
+                <a href="{% url 'deck_edit' deck.pk %}" class="button">
+                    Edit
+                </a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center">
+        <p class="lead text-muted">No decks found. Time to create one!</p>
+    </div>
+    {% endfor %}
+</div>
+<div class="d-flex justify-content-end mt-4">
+    <a href="#" class="button button-darker">+ Create New</a>
+</div>
 {% endblock content %}

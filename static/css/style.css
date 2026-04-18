@@ -1,0 +1,108 @@
+.A1, .A2, .B1, .B2, .C1, .C2{
+    font-weight: 800;
+}
+
+.A1 {
+    background-color: #ff7547;
+}
+
+.A2 {
+    background-color: #ffbf47;
+}
+
+.B1 {
+    background-color: #eaff47;
+}
+
+.B2 {
+    background-color: #a3ff47;
+}
+
+.C1 {
+    background-color: #47ff9d;
+}
+
+.C2 {
+    background-color: #47ddff;
+}
+
+.button {
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    user-select: none;
+
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    border-radius: 0.375rem;
+
+    color: #E5E7EB;
+    background-color: #003554;
+
+    border: 1px solid transparent;
+    transition: all 0.15s ease-in-out;
+}
+.button-bigger {
+    padding: 0.75rem 1.5rem;
+}
+
+.button:hover {
+    color: #E5E7EB;
+    background-color: #002b43;
+}
+
+.button-darker{
+    background-color: #051923;
+}
+
+.button-darker:hover {
+    background-color: #000d12;
+}
+
+input, textarea {
+    background: #003554;
+    outline: none;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 8px;
+    color: #E5E7EB;
+}
+
+textarea {
+    height: 100px;
+    resize: none;
+}
+
+.dect_detail-card {
+    height: 190px;
+}
+
+.dect_detail-card .card-text {
+    max-height: 75px;
+    overflow-y: auto !important;
+}
+
+/* ширина скроллбара */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+/* трек (фон) */
+::-webkit-scrollbar-track {
+    display: none;
+}
+
+/* ползунок */
+::-webkit-scrollbar-thumb {
+    background: #000d12;
+    border-radius: 10px;
+}
+
+/* hover эффект */
+::-webkit-scrollbar-thumb:hover {
+    background: #000;
+}
