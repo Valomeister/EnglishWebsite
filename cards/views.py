@@ -1,5 +1,6 @@
 from django.views.generic import ListView, DetailView
 from django.shortcuts import render, get_object_or_404, redirect
+from django.views.decorators.http import require_POST
 from .forms import DeckForm, DeckFormSet, DeckFormSetExtra
 from .models import Deck, Card
 
@@ -64,3 +65,10 @@ def create_deck_with_cards(request):
         'form': form,
         'formset': formset,
     })
+
+@require_POST
+def delete_deck(request, pk):
+    deck = get_object_or_404(Deck, pk=pk)
+    deck.delete()
+
+    return redirect('deck_list')

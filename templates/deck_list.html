@@ -37,13 +37,16 @@
                 </p>
             </div>
 
-            <div class="card-footer bg-transparent border-0 pb-3">
+            <div class="card-footer bg-transparent border-0 pb-3 d-flex gap-2">
                 <a href="{% url 'deck_detail' deck.pk %}" class="button">
                     Open Deck
                 </a>
                 <a href="{% url 'deck_edit' deck.pk %}" class="button">
                     Edit
                 </a>
+                <button class="button" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{ deck.pk }}">
+                    Delete
+                </button>
             </div>
         </div>
     </div>
@@ -55,5 +58,25 @@
 </div>
 <div class="d-flex justify-content-end mt-4">
     <a href="{% url 'deck_create' %}" class="button button-darker">+ Create New</a>
+</div>
+<div class="modal fade" id="deleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content bg-black border-light">
+            <div class="modal-body">
+                <h2>Are you sure?</h2>
+                This action cannot be reverted...
+            </div>
+            <div class="modal-footer  border-0">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cancel
+                </button>
+                <form method="post" id="deleteForm">
+                    {% csrf_token %}
+                    <button class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
 </div>
 {% endblock content %}
