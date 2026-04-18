@@ -1,13 +1,6 @@
 from django.db import models
 
 
-class Topic(models.Model):
-    name = models.CharField(max_length=200)
-    description = models.TextField()
-
-    def __str__(self):
-        return  self.name
-
 
 class Deck(models.Model):
     CEFR_LEVEL_CHOICES = {
@@ -21,7 +14,6 @@ class Deck(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
     cefr_level = models.CharField(max_length=10, choices=CEFR_LEVEL_CHOICES, null=True, blank=True)
-    topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name='topics')
 
     def __str__(self):
         return f'{self.title} ({self.cefr_level})'

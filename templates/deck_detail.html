@@ -6,8 +6,13 @@
 <div class="d-flex flex-column bg-dark p-3 my-4 rounded gap-3">
     <div class="field_wrapper d-flex flex-column align-items-start gap-2">
         <div>
-            <span class="badge text-dark {{ deck.cefr_level }}">{{ object.cefr_level }}</span>
-            <small class="ms-2">{{ object.topic.name }}</small>
+            <span class="badge fs-6 text-dark cefr_{{ deck.cefr_level }}">
+                {% if object.cefr_level != None %}
+                {{ deck.cefr_level }} - {{ deck.get_cefr_level_display }}
+                {% else %}
+                Not specified
+                {% endif %}
+            </span>
         </div>
         <h1 class="mb-0 mt-2">{{ object.title }}</h1>
         <p class="my-2">{{ object.description }}</p>

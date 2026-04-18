@@ -17,8 +17,13 @@
     <div class="col">
         <div class="card h-100 shadow-sm border-0 bg-dark text-light">
             <div class="card-header bg-transparent border-0 pt-3">
-                <span class="badge text-dark {{ deck.cefr_level }}">{{ deck.cefr_level }}</span>
-                <small class="ms-2">{{ deck.topic.name }}</small>
+                <span class="badge fs-6 text-dark cefr_{{ deck.cefr_level }}">
+                    {% if deck.cefr_level != None %}
+                    {{ deck.cefr_level }} - {{ deck.get_cefr_level_display }}
+                    {% else %}
+                    Not specified
+                    {% endif %}
+                </span>
             </div>
 
             <div class="card-body pt-0">
@@ -49,6 +54,6 @@
     {% endfor %}
 </div>
 <div class="d-flex justify-content-end mt-4">
-    <a href="#" class="button button-darker">+ Create New</a>
+    <a href="{% url 'deck_create' %}" class="button button-darker">+ Create New</a>
 </div>
 {% endblock content %}

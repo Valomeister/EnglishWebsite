@@ -1,20 +1,11 @@
 from django.contrib import admin
 
-from .models import Topic, Deck, Card
+from .models import Deck, Card
 
 
 class DeckInline(admin.TabularInline):
     model = Deck
     extra = 1
-
-
-class TopicAdmin(admin.ModelAdmin):
-    inlines = [
-        DeckInline,
-    ]
-    list_display = [
-        'name'
-    ]
 
 
 class CardInline(admin.TabularInline):
@@ -30,5 +21,4 @@ class DeckAdmin(admin.ModelAdmin):
         'cefr_level',
     ]
 
-admin.site.register(Topic, TopicAdmin)
 admin.site.register(Deck, DeckAdmin)
