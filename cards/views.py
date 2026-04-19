@@ -1,23 +1,33 @@
-from django.views.generic import ListView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView, DetailView, TemplateView
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
 from .forms import DeckForm, DeckFormSet, DeckFormSetExtra
 from .models import Deck, Card
 
 
-class DeckListView(ListView):
+class HomeView(TemplateView):
+    template_name = 'home.html'
+
+
+class DeckListView(LoginRequiredMixin, ListView):
     model = Deck
     template_name = 'deck_list.html'
     ordering = '-pk'
 
+    def get_queryset(self):
+        return Deck.objects.filter(author=self.request.user)
 
-class DeckDetailView(DetailView):
+
+class DeckDetailView(LoginRequiredMixin, DetailView):
     model = Deck
     template_name = 'deck_detail.html'
 
 
+@login_required
 def edit_deck_with_cards(request, pk):
-    deck = get_object_or_404(Deck, pk=pk)
+    deck = get_object_or_404(Deck, pk=pk, author=request.user)
 
     if request.method == 'POST':
         form = DeckForm(request.POST, instance=deck)
@@ -43,8 +53,9 @@ def edit_deck_with_cards(request, pk):
     })
 
 
+@login_required
 def create_deck_with_cards(request):
-    deck = Deck()
+    deck = Deck(author=request.user)
 
     if request.method == 'POST':
         form = DeckForm(request.POST, instance=deck)
@@ -66,9 +77,10 @@ def create_deck_with_cards(request):
         'formset': formset,
     })
 
+
 @require_POST
 def delete_deck(request, pk):
-    deck = get_object_or_404(Deck, pk=pk)
+    deck = get_object_or_404(Deck, pk=pk, author=request.user)
     deck.delete()
 
     return redirect('deck_list')

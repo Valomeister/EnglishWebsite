@@ -19,6 +19,7 @@ class DeckAdmin(admin.ModelAdmin):
     list_display = [
         'title',
         'cefr_level',
+        'author',
     ]
 
 admin.site.register(Deck, DeckAdmin)

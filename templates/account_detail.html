@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} <title>Profile</title> {% endblock title %}
+
+{% block content %}
+<div class="card bg-dark text-light mt-4 p-4 rounded-4 shadow-lg pb-4">
+
+    <div class="d-flex justify-content-between align-items-center border-bottom border-secondary pb-3 mb-4">
+        <div class="d-flex align-items-center gap-2">
+            <form action="{% url 'logout' %}" method="post" class="mt-1">
+                {% csrf_token %}
+                <button type="submit" class="no-bg-button"><img src="{% static 'accounts/logout.svg' %}" width="28px" alt="icon"></button>
+            </form>
+            <h2 class="m-0">Profile</h2>
+        </div>
+        <a href="{% url 'account_edit' object.pk %}" class=""><img src="{% static 'accounts/edit.svg' %}" width="28px" alt="icon"></a>
+    </div>
+
+
+    <div class="row g-3">
+
+        <div class="col-12">
+            <div class="">
+                <small class="text-secondary">Username</small>
+                <div class="fw-semibold mt-2 p-2 ps-3 bg-secondary bg-opacity-10 rounded-3">
+                    {{ object.username }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6">
+            <div class="">
+                <small class="text-secondary">First name</small>
+                <div class="fw-semibold mt-2 p-2 ps-3 bg-secondary bg-opacity-10 rounded-3">
+                    {{ object.first_name|default:"Null" }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6">
+            <div class="">
+                <small class="text-secondary">Last name</small>
+                <div class="fw-semibold mt-2 p-2 ps-3 bg-secondary bg-opacity-10 rounded-3">
+                    {{ object.last_name|default:"Null" }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="">
+                <small class="text-secondary">E-mail</small>
+                <div class="fw-semibold mt-2 p-2 ps-3 bg-secondary bg-opacity-10 rounded-3">
+                    {{ object.email|default:"Null" }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="">
+                <div class="">
+                    <small class="text-secondary">Password</small>
+                    <div class="d-flex justify-content-between fw-semibold mt-2 p-2 ps-3 bg-secondary bg-opacity-10 rounded-3">
+                        <span>
+                            ••••••••••
+                        </span>
+                        <div class="badge bg-danger"><a href="{% url 'password_reset' %}" class="text-light text-decoration-none">reset password</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock content %}

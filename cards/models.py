@@ -1,5 +1,5 @@
 from django.db import models
-
+from accounts.models import CustomUser
 
 
 class Deck(models.Model):
@@ -14,6 +14,7 @@ class Deck(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
     cefr_level = models.CharField(max_length=10, choices=CEFR_LEVEL_CHOICES, null=True, blank=True)
+    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='decks', default=1)
 
     def __str__(self):
         return f'{self.title} ({self.cefr_level})'

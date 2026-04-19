@@ -89,6 +89,14 @@ select {
     appearance: none;
 }
 
+option {
+    background-color: #0f222c;
+}
+
+option:hover {
+    background-color: #254053;
+}
+
 select:focus, textarea:focus, input:focus {
     outline: 1px solid #1f5373;
 }
@@ -122,4 +130,20 @@ select:focus, textarea:focus, input:focus {
 /* hover эффект */
 ::-webkit-scrollbar-thumb:hover {
     background: #000;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #09385a inset !important;
+    -webkit-text-fill-color: #fff !important;
+    transition: background-color 5000s ease-in-out 0s;
+    caret-color: #fff;
+}
+
+.no-bg-button {
+    background: none;
+    outline: none;
+    border: none;
 }

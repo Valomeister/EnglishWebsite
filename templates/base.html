@@ -21,10 +21,14 @@
                     <a href="#" class="nav-link">Library</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Profile</a>
+                    <a href="/admin/" class="nav-link">Admin (tmp)</a>
                 </li>
                 <li class="nav-item">
-                    <a href="/admin/" class="nav-link">Admin (tmp)</a>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'account' user.pk %}" class="nav-link">{{ user.username }}</a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="nav-link">Log in</a>
+                    {% endif %}
                 </li>
             </ul>
         </div>
