@@ -1,10 +1,24 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %}<title>Deck details</title>{% endblock title %}
 
 {% block content %}
-<div class="d-flex flex-column bg-dark p-3 my-4 rounded gap-3">
+<div class="py-5">
     <div class="field_wrapper d-flex flex-column align-items-start gap-2">
+        <div class="d-flex justify-content-between w-100 mb-4">
+            <div class="">
+                <a href="{% url 'deck_list' %}"><img src="{% static 'cards/arrow-back.svg' %}" width="28px" alt="icon"></a>
+            </div>
+            <div class="">
+                <button class="btn btn-link p-0 border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{ object.pk }}">
+                    <img src="{% static 'cards/trash.svg' %}" width="30px" alt="icon">
+                </button>
+                <a href="{% url 'deck_edit' object.pk %}" class="ms-1"><img src="{% static 'accounts/edit.svg' %}" width="28px" alt="icon"></a>
+            </div>
+
+        </div>
         <div>
             <span class="badge fs-6 text-dark cefr_{{ deck.cefr_level }}">
                 {% if object.cefr_level != None %}
@@ -14,9 +28,11 @@
                 {% endif %}
             </span>
         </div>
-        <h1 class="mb-0 mt-2">{{ object.title }}</h1>
+        <div class="d-flex justify-content-between w-100">
+            <h1 class="mb-0 mt-2">{{ object.title }}</h1>
+
+        </div>
         <p class="my-2">{{ object.description }}</p>
-        <a href="{% url 'deck_edit' object.pk %}" class="button">Edit</a>
     </div>
 
 </div>
@@ -24,7 +40,7 @@
 <div class="row g-3" id="formset-container">
     {% for card in object.cards.all %}
         <div class="col col-3">
-            <div class="card dect_detail-card bg-dark text-light">
+            <div class="card dect_detail-card bg-dark text-light rounded border border-light border-opacity-25 border-2">
 
                 <div class="card-header bg-black">
                     <h3 class="m-0 fs-4">{{ card.word }}</h3>
@@ -45,4 +61,25 @@
             </div>
         </div>
     {% endfor %}
+
+    <div class="modal fade" id="deleteModal">
+        <div class="modal-dialog">
+            <div class="modal-content bg-black border-light ">
+                <div class="modal-body">
+                    <h2>Are you sure?</h2>
+                    This action cannot be reverted...
+                </div>
+                <div class="modal-footer  border-0 ">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                    <form method="post" id="deleteForm">
+                        {% csrf_token %}
+                        <button class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
 {% endblock content %}

@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, UpdateView
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 
-from .forms import CustomUserCreationForm, UserUpdateForm, StyledPasswordResetForm, StyledLoginView
+from .forms import CustomUserCreationForm, UserUpdateForm, StyledPasswordResetForm, StyledLoginForm
 from .models import CustomUser
 
 class SignUpView(CreateView):
@@ -36,5 +36,5 @@ class CustomPasswordResetView(PasswordResetView):
 
 
 class CustomLoginView(LoginView):
-    form_class = StyledLoginView
+    form_class = StyledLoginForm
     template_name = 'registration/login.html'

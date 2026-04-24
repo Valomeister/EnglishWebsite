@@ -3,39 +3,43 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm, Password
 from .models import CustomUser
 
 
+text_input_widget = forms.TextInput(attrs={
+    'class': 'form-control bg-secondary bg-opacity-10 text-light border-secondary',
+})
+
+select_widget = forms.Select(attrs={
+    'class': 'form-select bg-secondary bg-opacity-10 text-light border-secondary',
+})
+
+email_input_widget = forms.EmailInput(attrs={
+    'class': 'form-control bg-secondary bg-opacity-10 text-light border-secondary',
+    'placeholder': 'Enter your email',
+})
+
+password_input_widget = forms.PasswordInput(attrs={
+    'class': 'form-control bg-secondary bg-opacity-10 text-light border-secondary',
+    'autocomplete': 'new-password',
+})
 
 class CustomUserCreationForm(UserCreationForm):
     password1 = forms.CharField(
-        widget=forms.PasswordInput(attrs={
-            'class': 'form-control bg-secondary bg-opacity-10 text-light border-secondary',
-            'autocomplete': 'new-password',
-        })
+        widget=password_input_widget
     )
 
     password2 = forms.CharField(
-        widget=forms.PasswordInput(attrs={
-            'class': 'form-control bg-secondary bg-opacity-10 text-light border-secondary',
-            'autocomplete': 'new-password',
-        })
+        widget=password_input_widget
     )
 
     email = forms.EmailField(
-        widget=forms.EmailInput(attrs={
-            'class': 'form-control bg-secondary bg-opacity-10 text-light border-secondary',
-            'placeholder': 'Enter your email',
-        })
+        widget=email_input_widget
     )
 
     class Meta:
         model = CustomUser
         fields = UserCreationForm.Meta.fields + ('cefr_level',)
         widgets = {
-            'username': forms.TextInput(attrs={
-                'class': 'form-control bg-secondary bg-opacity-10 text-light border-secondary'
-            }),
-            'cefr_level': forms.Select(attrs={
-                'class': 'form-select bg-secondary bg-opacity-10 text-light border-secondary',
-            }),
+            'username': text_input_widget,
+            'cefr_level': select_widget
         }
 
 
@@ -50,39 +54,24 @@ class UserUpdateForm(forms.ModelForm):
         model = CustomUser
         fields = ['username', 'first_name', 'last_name', 'email']
         widgets = {
-            'username': forms.TextInput(attrs={
-                'class': 'form-control bg-secondary bg-opacity-10 text-light border-secondary',
-            }),
-            'first_name': forms.TextInput(attrs={
-                'class': 'form-control bg-secondary bg-opacity-10 text-light border-secondary',
-            }),
-            'last_name': forms.TextInput(attrs={
-                'class': 'form-control bg-secondary bg-opacity-10 text-light border-secondary'
-            }),
-            'email': forms.EmailInput(attrs={
-                'class': 'form-control bg-secondary bg-opacity-10 text-light border-secondary'
-            })
+            'username': text_input_widget,
+            'first_name': text_input_widget,
+            'last_name': text_input_widget,
+            'email': email_input_widget,
         }
 
 
 class StyledPasswordResetForm(PasswordResetForm):
     email = forms.EmailField(
-        widget=forms.EmailInput(attrs={
-            'class': 'form-control bg-secondary bg-opacity-10 text-light border-secondary',
-            'placeholder': 'Enter your email',
-        })
+        widget=email_input_widget
     )
 
 
-class StyledLoginView(AuthenticationForm):
+class StyledLoginForm(AuthenticationForm):
     username = forms.CharField(
-        widget=forms.TextInput(attrs={
-            'class': 'form-control bg-secondary bg-opacity-10 text-light border-secondary',
-        })
+        widget=text_input_widget
     )
 
     password = forms.CharField(
-        widget=forms.PasswordInput(attrs={
-            'class': 'form-control bg-secondary bg-opacity-10 text-light border-secondary',
-        })
+        widget=password_input_widget
     )

@@ -3,7 +3,7 @@ from django.views.generic import ListView, DetailView, TemplateView
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
-from .forms import DeckForm, DeckFormSet, DeckFormSetExtra
+from .forms import DeckForm, DeckFormSet
 from .models import Deck, Card
 
 
@@ -28,10 +28,11 @@ class DeckDetailView(LoginRequiredMixin, DetailView):
 @login_required
 def edit_deck_with_cards(request, pk):
     deck = get_object_or_404(Deck, pk=pk, author=request.user)
+    queryset = Card.objects.filter(deck=pk).order_by("id")
 
     if request.method == 'POST':
         form = DeckForm(request.POST, instance=deck)
-        formset = DeckFormSet(request.POST, queryset=Card.objects.filter(deck=pk))
+        formset = DeckFormSet(request.POST, queryset=queryset)
         if form.is_valid() and formset.is_valid():
             form.save()
             instances = formset.save(commit=False)
@@ -44,7 +45,7 @@ def edit_deck_with_cards(request, pk):
 
     else:
         form = DeckForm(instance=deck)
-        formset = DeckFormSet(queryset=Card.objects.filter(deck=pk))
+        formset = DeckFormSet(queryset=queryset)
 
     return render(request, 'deck_edit.html', {
         'form': form,
@@ -59,7 +60,7 @@ def create_deck_with_cards(request):
 
     if request.method == 'POST':
         form = DeckForm(request.POST, instance=deck)
-        formset = DeckFormSetExtra(request.POST, queryset=Card.objects.none())
+        formset = DeckFormSet(request.POST, queryset=Card.objects.none())
         if form.is_valid() and formset.is_valid():
             form.save()
             instances = formset.save(commit=False)
@@ -70,7 +71,7 @@ def create_deck_with_cards(request):
 
     else:
         form = DeckForm(instance=deck)
-        formset = DeckFormSetExtra(queryset=Card.objects.none())
+        formset = DeckFormSet(queryset=Card.objects.none())
 
     return render(request, 'deck_create.html', {
         'form': form,

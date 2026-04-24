@@ -2,99 +2,54 @@
 {% load static %}
 
 {% block content %}
-<div class="container py-4">
 
-    <form method="post">
-        {% csrf_token %}
+<form method="post">
+    {% csrf_token %}
 
-        <div class="d-flex flex-column bg-dark p-3 mb-4 rounded gap-3">
-            {% for field in form %}
-                <div class="field_wrapper d-flex flex-column gap-1">
-                    <label for="{{ field.id_for_label }}" class="">{{field.label}}</label>
-                    {{ field }}
-                </div>
+    <!-- deck form -->
 
-            {% endfor %}
-        </div>
-        {{ formset.management_form }}
-        <div class="row g-3" id="formset-container">
-        {% for subform in formset %}
-            {% for hidden in subform.hidden_fields %}
-                {{ hidden }}
-            {% endfor %}
-            <div class="col col-3">
-                <div class="word-card d-flex flex-column bg-dark p-3 rounded gap-2">
-                    {% for field in subform.visible_fields %}
-                        <div class="field_wrapper d-flex flex-column gap-1">
-                            {% if field.name == 'DELETE' %}
-                                <div class="d-none">
-                                    {{ field }}
-                                </div>
-
-                                <button
-                                    type="button"
-                                    class="btn btn-outline-danger btn-sm delete-btn mt-2 align-self-center">
-                                    🗑
-                                </button>
-                            {% else %}
-                            <label for="{{ field.id_for_label }}" class="">{{field.label}}</label>
-                            {{ field }}
-                            {% endif %}
-                        </div>
-                    {% endfor %}
-                </div>
+    <div class="py-5 d-flex flex-column gap-3">
+        <a href="{% url 'deck_detail' pk %}" class="mb-4"><img src="{% static 'cards/arrow-back.svg' %}" width="28px" alt="icon"></a>
+        {% for field in form %}
+            <div class="field_wrapper d-flex flex-column gap-1">
+                <label for="{{ field.id_for_label }}" class="">{{field.label}}</label>
+                {{ field }}
             </div>
+
+        {% endfor %}
+    </div>
+    {{ formset.management_form }}
+
+    <!-- cards forms -->
+
+    <div class="row g-3" id="formset-container">
+
+        <!-- existing cards list -->
+
+        {% for subform in formset %}
+            {% include 'card_edit_form_template.html' with card=subform %}
         {% endfor %}
 
-        <template id="empty-form-template">
+        <!-- add card -->
 
-            <div class="col col-3">
-                <div class="word-card d-flex flex-column bg-dark p-3 rounded gap-2">
+        {% include 'card_edit_form_template.html' with is_button=True %}
 
-                    {% for field in formset.empty_form.visible_fields %}
-                        <div class="field_wrapper d-flex flex-column gap-1">
+        <div class="col col-3">
 
-                            {% if field.name == 'DELETE' %}
-
-                                <div class="d-none">
-                                    {{ field }}
-                                </div>
-
-                                <button
-                                    type="button"
-                                    class="btn btn-outline-danger btn-sm delete-btn mt-2 align-self-center">
-                                    🗑
-                                </button>
-
-                            {% else %}
-
-                                <label for="{{ field.id_for_label }}">
-                                    {{ field.label }}
-                                </label>
-
-                                {{ field }}
-
-                            {% endif %}
-
-                        </div>
-                    {% endfor %}
-
-                </div>
-            </div>
-
-            </template>
-            <div class="col col-3 d-flex justify-content-center align-items-center">
-                <button type="button" id="add-card" class="col col-3 button button-darker w-auto">
-                    + Add card
-                </button>
-            </div>
         </div>
 
-        <div class="d-flex justify-content-end gap-2 mt-4">
-            <a href="{% url 'deck_detail' pk %}" class="btn btn-danger">Cancel</a>
-            <button class="btn btn-success" type="submit">OK</button>
-        </div>
-    </form>
+    </div>
 
-</div>
+
+
+    <div class="d-flex justify-content-end gap-2 my-4">
+        <button class="btn btn-success px-4" type="submit">Save</button>
+    </div>
+</form>
+
+<!-- empty card template -->
+
+<template id="empty-form-template">
+    {% include 'card_edit_form_template.html' with is_empty=True card=formset.empty_form %}
+</template>
 {% endblock content %}

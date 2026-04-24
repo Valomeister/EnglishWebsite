@@ -1,0 +1,82 @@
+{% if not is_button and not is_empty %}
+
+    {% for hidden in card.hidden_fields %}
+        {{ hidden }}
+    {% endfor %}
+
+{% endif %}
+
+{% if is_button %}
+    <div class="col col-3">
+
+       <div  id="add-card" class="word-card d-flex flex-column bg-dark rounded border
+            border-light border-opacity-25 border-2 add-card-button-bg position-relative">
+
+            <!--  add card header -->
+
+            <div class="card-header bg-black p-3 py-2 rounded-top">
+                <input type="text" class="form-control bg-transparent fs-4
+                 bg-opacity-10 text-light border-secondary border-0 border-bottom rounded-0 p-0">
+            </div>
+
+            <!--  add card body -->
+
+            <div class="card-body p-3">
+                <div class="field_wrapper d-flex flex-column gap-3">
+                    <div class="field_wrapper ">
+                        <input type="text" class="form-control bg-transparent
+                        bg-opacity-10 text-light border-secondary border-0 border-bottom rounded-0 p-0">
+                    </div>
+                    <div class="field_wrapper">
+                        <textarea type="text" class="form-control bg-secondary bg-opacity-10 text-light rounded-0 border-0">
+
+                        </textarea>
+                    </div>
+                    <div class="d-none">
+
+                    </div>
+
+                    <button
+                        type="button"
+                        class="btn btn-outline-danger btn-sm delete-btn align-self-center">
+                        🗑
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% else %}
+    <div class="col col-3">
+        <div class="word-card d-flex flex-column bg-dark rounded border border-light
+                border-opacity-25 border-2">
+            <!-- card header -->
+
+            <div class="card-header bg-black p-3 py-2 rounded-top">
+                <h3 class="m-0 fs-4">{{ card.word }}</h3>
+            </div>
+
+            <!-- card body -->
+
+            <div class="card-body p-3">
+                <div class="field_wrapper d-flex flex-column gap-3">
+                    <div class="field_wrapper ">
+                        {{ card.translation }}
+                    </div>
+                    <div class="field_wrapper">
+                        {{ card.description }}
+                    </div>
+                    <div class="d-none">
+                        {{ card.DELETE }}
+                    </div>
+
+                    <button
+                        type="button"
+                        class="btn btn-outline-danger btn-sm delete-btn align-self-center">
+                        🗑
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
