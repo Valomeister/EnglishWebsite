@@ -1,29 +1,39 @@
+:root {
+    --bg-cefr-A1: #ff7547;
+    --bg-cefr-A2: #ffbf47;
+    --bg-cefr-B1: #eaff47;
+    --bg-cefr-B2: #a3ff47;
+    --bg-cefr-C1: #47ff9d;
+    --bg-cefr-C2: #47ddff;
+    --bg-cefr-None: #fefefe;
+}
+
 .cefr_A1 {
-    background-color: #ff7547;
+    background-color: var(--bg-cefr-A1);
 }
 
 .cefr_A2 {
-    background-color: #ffbf47;
+    background-color: var(--bg-cefr-A2);
 }
 
 .cefr_B1 {
-    background-color: #eaff47;
+    background-color: var(--bg-cefr-B1);
 }
 
 .cefr_B2 {
-    background-color: #a3ff47;
+    background-color: var(--bg-cefr-B2);
 }
 
 .cefr_C1 {
-    background-color: #47ff9d;
+    background-color: var(--bg-cefr-C1);
 }
 
 .cefr_C2 {
-    background-color: #47ddff;
+    background-color: var(--bg-cefr-C2);
 }
 
 .cefr_None {
-    background-color: #fefefe;
+    background-color: var(--bg-cefr-None);
 }
 
 .button {
@@ -63,7 +73,7 @@
 }
 
 input, textarea {
-    background: #003554;
+    background: #1d1e1f;
     outline: none;
     border: none;
     border-radius: 4px;
@@ -94,7 +104,14 @@ option {
 }
 
 select:focus, textarea:focus, input:focus {
-    outline: 1px solid #1f5373;
+    outline: 1px solid #555555;
+}
+
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 .dect_detail-card {
@@ -191,7 +208,82 @@ input:-webkit-autofill:active {
     background: rgba(0, 0, 0, 0.2);
 }
 
+/* Library */
 
+.toggle_filter_cefr {
+    outline: none;
+    background: none;
+    color: #f8f9fa;
+    border: 1px solid transparent;
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.btn-check:checked + .toggle_filter_cefr {
+    color: #000000;
+}
+
+.toggle_filter_A1 {
+    border: 2px solid var(--bg-cefr-A1);
+}
+.btn-check:checked + .toggle_filter_A1 {
+    background: var(--bg-cefr-A1);
+}
+
+.toggle_filter_A2 {
+    border: 2px solid var(--bg-cefr-A2);
+}
+.btn-check:checked + .toggle_filter_A2 {
+    background: var(--bg-cefr-A2);
+}
+
+.toggle_filter_B1 {
+    border: 2px solid var(--bg-cefr-B1);
+}
+.btn-check:checked + .toggle_filter_B1 {
+    background: var(--bg-cefr-B1);
+}
+
+.toggle_filter_B2 {
+    border: 2px solid var(--bg-cefr-B2);
+}
+.btn-check:checked + .toggle_filter_B2 {
+    background: var(--bg-cefr-B2);
+}
+
+.toggle_filter_C1 {
+    border: 2px solid var(--bg-cefr-C1);
+}
+.btn-check:checked + .toggle_filter_C1 {
+    background: var(--bg-cefr-C1);
+}
+
+.toggle_filter_C2 {
+    border: 2px solid var(--bg-cefr-C2);
+}
+.btn-check:checked + .toggle_filter_C2 {
+    background: var(--bg-cefr-C2);
+}
+
+.toggle_filter_None {
+    border: 2px solid var(--bg-cefr-None);
+}
+.btn-check:checked + .toggle_filter_None {
+    background: var(--bg-cefr-None);
+}
+
+.range_wrapper input{
+    width: 80px;
+}
+
+.star_img_container {
+    width: 28px;
+    height: 28px;
+}
+
+
+/* Animations */
 
 @keyframes shake {
     0% { transform: translateX(0); }

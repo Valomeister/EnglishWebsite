@@ -92,3 +92,39 @@ if (modal) {
         form.action = `/decks/${id}/delete/`;
     });
 }
+
+
+function getCSRFToken() {
+    return document.cookie
+        .split('; ')
+        .find(row => row.startsWith('csrftoken='))
+        ?.split('=')[1];
+}
+
+const emptyStarImg = document.getElementById('empty-star');
+const filledStarImg = document.getElementById('filled-star');
+document.addEventListener('click', async function(e) {
+    if (!e.target.closest('.star-btn')) return;
+
+    const button = e.target.closest('.star-btn');
+    const deckId = button.dataset.id;
+
+    const response = await fetch(`/decks/library/${deckId}/star/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCSRFToken(),
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    });
+
+    const data = await response.json();
+    if (data.starred) {
+        emptyStarImg.style.display = 'none';
+        filledStarImg.style.display = 'inline-block';
+    } else {
+        emptyStarImg.style.display = 'inline-block';
+        filledStarImg.style.display = 'none';
+    }
+
+    document.getElementById(`star-count-${deckId}`).textContent = data.count;
+});

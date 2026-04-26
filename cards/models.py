@@ -15,6 +15,7 @@ class Deck(models.Model):
     description = models.TextField(null=True, blank=True)
     cefr_level = models.CharField(max_length=10, choices=CEFR_LEVEL_CHOICES, null=True, blank=True)
     author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='decks', default=1)
+    starred_by = models.ManyToManyField(CustomUser, related_name='starred_decks', null=True, blank=True)
 
     def __str__(self):
         return f'{self.title} ({self.cefr_level})'

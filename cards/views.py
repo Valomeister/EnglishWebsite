@@ -1,4 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Count, Q
+from django.http import JsonResponse
 from django.views.generic import ListView, DetailView, TemplateView
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_POST
@@ -85,3 +87,66 @@ def delete_deck(request, pk):
     deck.delete()
 
     return redirect('deck_list')
+
+###########
+# LIBRARY #
+###########
+
+class LibraryListView(ListView):
+    model = Deck
+    template_name = 'deck_library.html'
+
+    def get_queryset(self):
+        qs = Deck.objects.all().annotate(
+            cards_count=Count("cards")
+        ).order_by('id')
+
+        levels = self.request.GET.getlist("level")
+        min_words = self.request.GET.get("min_words")
+        max_words = self.request.GET.get("max_words")
+
+        if levels:
+            q = Q()
+
+            real_levels = [x for x in levels if x != "None"]
+
+            if real_levels:
+                q |= Q(cefr_level__in=real_levels)
+
+            if "None" in levels:
+                q |= Q(cefr_level__isnull=True) | Q(cefr_level="")
+
+            qs = qs.filter(q)
+
+        if min_words:
+            qs = qs.filter(cards_count__gte=min_words)
+
+        if max_words:
+            qs = qs.filter(cards_count__lte=max_words)
+
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cefr_levels'] = list(Deck.CEFR_LEVEL_CHOICES.keys())
+        context["selected_levels"] = self.request.GET.getlist("level")
+
+        return context
+
+
+@login_required
+@require_POST
+def toggle_starred(request, pk):
+    deck = get_object_or_404(Deck, pk=pk)
+
+    if deck.starred_by.filter(pk=request.user.pk).exists():
+        deck.starred_by.remove(request.user)
+        starred = False
+    else:
+        deck.starred_by.add(request.user)
+        starred = True
+
+    return JsonResponse({
+        "starred": starred,
+        "count": deck.starred_by.count(),
+    })

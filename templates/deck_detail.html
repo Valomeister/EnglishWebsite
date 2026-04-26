@@ -5,17 +5,50 @@
 {% block title %}<title>Deck details</title>{% endblock title %}
 
 {% block content %}
-<div class="py-5">
+<div class="my-5">
     <div class="field_wrapper d-flex flex-column align-items-start gap-2">
         <div class="d-flex justify-content-between w-100 mb-4">
             <div class="">
-                <a href="{% url 'deck_list' %}"><img src="{% static 'cards/arrow-back.svg' %}" width="28px" alt="icon"></a>
+                {% if request.GET.next == "library" %}
+                    <a href="{% url 'deck_library' %}"><img src="{% static 'cards/arrow-back.svg' %}" width="28px" alt="icon"></a>
+                {% else %}
+                    <a href="{% url 'deck_list' %}"><img src="{% static 'cards/arrow-back.svg' %}" width="28px" alt="icon"></a>
+                {% endif %}
             </div>
-            <div class="">
-                <button class="btn btn-link p-0 border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{ object.pk }}">
-                    <img src="{% static 'cards/trash.svg' %}" width="30px" alt="icon">
-                </button>
-                <a href="{% url 'deck_edit' object.pk %}" class="ms-1"><img src="{% static 'accounts/edit.svg' %}" width="28px" alt="icon"></a>
+            <div class="d-flex align-items-center gap-1">
+                {% if request.user == deck.author %}
+                    <button class="btn btn-link p-0 border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{ object.pk }}">
+                        <img src="{% static 'cards/trash.svg' %}" width="30px" alt="icon">
+                    </button>
+                    <a href="{% url 'deck_edit' object.pk %}" class="ms-1"><img src="{% static 'accounts/edit.svg' %}" width="28px" alt="icon"></a>
+                {% else %}
+                    <button
+                        class="star-btn border-0 bg-transparent p-0 d-flex align-items-center"
+                        data-id="{{ deck.pk }}"
+                    >
+
+                        <span class="d-inline-block position-relative star_img_container">
+                            <img src="{% static 'cards/star-filled.svg' %}" width="28px" alt="icon" id="filled-star"
+                                 class="position-absolute top-0 start-0" style=
+                                         {% if not user in deck.starred_by.all %}
+                                            "display:none"
+                                        {% else %}
+                                            ""
+                                        {% endif %}">
+                            <img src="{% static 'cards/star.svg' %}" width="28px" alt="icon" id="empty-star"
+                                 class="position-absolute top-0 start-0" style=
+                                         {% if user in deck.starred_by.all %}
+                                            "display:none"
+                                        {% else %}
+                                            ""
+                                        {% endif %}">
+                        </span>
+                    </button>
+
+                    <span id="star-count-{{ deck.pk }}" class="fs-5 ms-1">
+                        {{ deck.starred_by.count }}
+                    </span>
+                {% endif %}
             </div>
 
         </div>

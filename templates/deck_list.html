@@ -3,7 +3,7 @@
 {% block title %}<title>Decks</title>{% endblock title %}
 
 {% block content %}
-<div class="py-5">
+<div class="my-5">
     <div class="field_wrapper d-flex flex-column align-items-start gap-2">
         <h1 class="mb-0 mt-2">My Decks</h1>
         <p class="my-2">
@@ -20,7 +20,7 @@
     <div class="col">
         <div class="card h-100 bg-dark text-light rounded border
         border-light border-opacity-25 border-2 deck-card position-relative">
-            <a href="{% url 'deck_detail' deck.pk %}" class="text-decoration-none text-reset stretched-link"></a>
+            <a href="{% url 'deck_detail' deck.pk %}?next=my_decks" class="text-decoration-none text-reset stretched-link"></a>
 
             <div class="card-header cefr_{{ deck.cefr_level }} rounded-top">
                 <span class="m-0 fs-6 text-black fw-bold">
@@ -73,6 +73,49 @@
 
         </div>
     </div>
+</div>
+
+<div class="my-5">
+    <div class="field_wrapper d-flex flex-column align-items-start gap-2">
+        <h1 class="mb-0 mt-2">Starred Decks</h1>
+    </div>
+</div>
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 ">
+    {% for deck in request.user.starred_decks.all %}
+
+    <div class="col">
+        <div class="card h-100 bg-dark text-light rounded border
+        border-light border-opacity-25 border-2 deck-card position-relative">
+            <a href="{% url 'deck_detail' deck.pk %}?next=my_decks" class="text-decoration-none text-reset stretched-link"></a>
+
+            <div class="card-header cefr_{{ deck.cefr_level }} rounded-top">
+                <span class="m-0 fs-6 text-black fw-bold">
+                    {% if deck.cefr_level != None %}
+                    {{ deck.cefr_level }} - {{ deck.get_cefr_level_display }}
+                    {% else %}
+                    Not specified
+                    {% endif %}
+                </span>
+            </div>
+
+            <div class="card-body d-flex flex-column">
+
+                <p class="small p-0 m-0">by {{ deck.author }}</p>
+
+                <h2 class="card-title fw-bold fs-4 my-1">
+                    {{ deck.title|truncatechars:50 }}
+                </h2>
+
+                <div class="card-text overflow-hidden">
+                    {{ deck.cards.count }} words
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    {% endfor %}
+
 </div>
 
 {% endblock content %}

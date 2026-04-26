@@ -1,0 +1,12 @@
+
+<button
+    hx-post="{% url 'toggle_starred' deck.pk %}"
+    hx-target="#star-btn-{{ deck.pk }}"
+    hx-swap="outerHTML"
+>
+    {% if user in deck.starred_by.all %}
+        ⭐ Remove
+    {% else %}
+        ☆ Add
+    {% endif %}
+</button>
