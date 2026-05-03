@@ -8,6 +8,10 @@
     --bg-cefr-None: #fefefe;
 }
 
+nav {
+    z-index: 10;
+}
+
 .cefr_A1 {
     background-color: var(--bg-cefr-A1);
 }
@@ -114,21 +118,6 @@ input[type="number"]::-webkit-inner-spin-button {
     margin: 0;
 }
 
-.dect_detail-card {
-    height: 190px;
-}
-
-.dect_detail-card .card-body {
-    flex-grow: 1;
-    min-height: 0;
-}
-
-.dect_detail-card .card-text {
-    flex-grow: 1;
-    min-height: 0;
-    overflow-y: auto !important;
-}
-
 /* ширина скроллбара */
 ::-webkit-scrollbar {
     width: 8px;
@@ -160,6 +149,71 @@ input:-webkit-autofill:active {
     transition: background-color 5000s ease-in-out 0s;
     caret-color: #fff;
 }
+
+.btn-black {
+    background-color: #252525;
+    color: #f2f2f2;
+    border: 1px solid #1f1f1f;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+}
+
+.btn-black:hover {
+    background-color: #1a1a1a;
+    border-color: #2a2a2a;
+}
+
+.btn-black-outline {
+    background-color: transparent;
+    color: #f2f2f2;
+    border: 1px solid #2a2a2a;
+    border-radius: 10px;
+}
+
+.btn-black-outline:hover {
+    background-color: #151515;
+    border-color: #3a3a3a;
+}
+
+.btn-black-danger {
+    background-color: #120808;
+    color: #ff5c5c;
+    border: 1px solid #2a1212;
+    border-radius: 10px;
+}
+
+.btn-black-danger:hover {
+    background-color: #1a0c0c;
+    border-color: #3a1515;
+    color: #ff3b3b;
+}
+
+.btn {
+    padding: 8px 16px;
+    font-weight: 500;
+    font-size: 14px;
+    box-shadow: none;
+}
+
+.back_link {
+    width: fit-content;
+}
+
+.deck_detail-card {
+    height: 190px;
+}
+
+.deck_detail-card .card-body {
+    flex-grow: 1;
+    min-height: 0;
+}
+
+.deck_detail-card .card-text {
+    flex-grow: 1;
+    min-height: 0;
+    overflow-y: auto !important;
+}
+
 
 .no-bg-button {
     background: none;
@@ -207,6 +261,51 @@ input:-webkit-autofill:active {
 .add-card-button-bg:hover:before, .add-deck-button-bg:hover:before {
     background: rgba(0, 0, 0, 0.2);
 }
+
+.json_edit {
+    width: 100%;
+    height: 50vh;
+}
+
+.progress-container {
+    width: 100%;
+    max-width: 400px;
+}
+
+.progress-label {
+    display: flex;
+    justify-content: space-between;
+    color: #eaeaea;
+    font-size: 14px;
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+.progress {
+    height: 10px;
+    border-radius: 8px;
+    background-color: #2a2a2a !important;
+    overflow: hidden;
+}
+
+.deck_card_bad_mastery {
+    border-color: #dc3545 !important;
+}
+
+.deck_card_medium_mastery {
+    border-color: #b58800 !important;
+}
+
+.deck_card_good_mastery {
+    border-color: #198754 !important;
+}
+
+.progress-bar-custom {
+    background: linear-gradient(90deg, #4f46e5, #22c55e);
+    transition: width 0.5s ease;
+    border-radius: 8px;
+}
+
 
 /* Library */
 
@@ -282,6 +381,45 @@ input:-webkit-autofill:active {
     height: 28px;
 }
 
+/* Study cards */
+
+
+.flashcard {
+    min-height: 340px;
+}
+
+.prev_btn {
+    padding-left: 20px !important;
+}
+
+.next_btn {
+    padding-right: 20px !important;
+}
+
+.secondary_btn_fake_hover {
+    background: #6c757d;
+    color: #ffffff;
+}
+
+.show_btn_fake_hover {
+    background: #f8f9fa;
+    color: #000;
+}
+
+.know_btn_fake_hover {
+    background: #198754;
+    color: #000;
+}
+
+.not_sure_btn_fake_hover {
+    background: #b58800;
+    color: #000;
+}
+
+.dont_know_btn_fake_hover {
+    background: #dc3545;
+    color: #000;
+}
 
 /* Animations */
 

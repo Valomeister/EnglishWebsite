@@ -28,15 +28,15 @@
                     >
 
                         <span class="d-inline-block position-relative star_img_container">
-                            <img src="{% static 'cards/star-filled.svg' %}" width="28px" alt="icon" id="filled-star"
-                                 class="position-absolute top-0 start-0" style=
+                            <img src="{% static 'cards/star-filled.svg' %}" width="28px" alt="icon"
+                                 class="position-absolute top-0 start-0 filled-star" style=
                                          {% if not user in deck.starred_by.all %}
                                             "display:none"
                                         {% else %}
                                             ""
                                         {% endif %}">
-                            <img src="{% static 'cards/star.svg' %}" width="28px" alt="icon" id="empty-star"
-                                 class="position-absolute top-0 start-0" style=
+                            <img src="{% static 'cards/star.svg' %}" width="28px" alt="icon"
+                                 class="position-absolute top-0 start-0 empty-star" style=
                                          {% if user in deck.starred_by.all %}
                                             "display:none"
                                         {% else %}
@@ -66,15 +66,48 @@
 
         </div>
         <p class="my-2">{{ object.description }}</p>
+        {% if progress_exists %}
+            <div class="progress-container">
+                <div class="progress-label">
+                    Progress
+                    <span class="progress-value">{{ progress|floatformat:0 }}%</span>
+                </div>
+
+                <div class="progress bg-dark">
+                    <div
+                        class="progress-bar progress-bar-custom"
+                        role="progressbar"
+                        style="width: {{ progress|floatformat:0 }}%;"
+                        aria-valuenow="{{ progress|floatformat:0 }}"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                    ></div>
+                </div>
+            </div>
+        {% endif %}
+        <div class="d-flex mt-3 gap-2">
+            <a href="{% url 'deck_assess' deck.pk %}?next={{ request.GET.next }}" class="btn btn-black">Asses</a>
+            <a href="{% url 'deck_study' deck.pk %}?next={{ request.GET.next }}" class="btn btn-black">Study</a>
+            <button class="btn btn-black">Test</button>
+            <button id="progress_reset" class="btn btn-black" data-deck-id="{{ deck.pk }}">Reset</button>
+        </div>
+
     </div>
 
 </div>
 
 <div class="row g-3" id="formset-container">
-    {% for card in object.cards.all %}
+    {% for card in cards %}
         <div class="col col-3">
-            <div class="card dect_detail-card bg-dark text-light rounded border border-light border-opacity-25 border-2">
-
+            <div class="card deck_detail-card bg-dark text-light rounded border border-light border-opacity-25 border-2
+                {% if card.user_progress.0.mastery >= 99 %}
+                    deck_card_good_mastery
+                {% elif card.user_progress.0.mastery == 0 %}
+                    deck_card_bad_mastery
+                {% elif card.user_progress.0.mastery != None %}
+                    deck_card_medium_mastery
+                {% endif %}
+                ">
                 <div class="card-header bg-black">
                     <h3 class="m-0 fs-4">{{ card.word }}</h3>
                 </div>
@@ -116,3 +149,7 @@
         </div>
     </div>
 {% endblock content %}
+
+{% block javascripts %}
+    <script type="module" src="{% static 'js/deck_detail_script.js' %}" ></script>
+{% endblock javascripts %}

@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}<title>Deck assess</title>{% endblock title %}
+
+{% block content %}
+
+<div class="my-5">
+    <div class="field_wrapper d-flex flex-column align-items-start gap-2">
+        <div class="d-flex justify-content-between align-items-center w-100 mb-3">
+            <div class="" style="height: 30px">
+                <a href="{% url 'deck_detail' deck.pk %}?next={{ request.GET.next }}"><img src="{% static 'cards/arrow-back.svg' %}" width="28px" alt="icon"></a>
+            </div>
+            <div id="cardIndexWrapper" class="text-center text-light">
+                <span id="currentCardIndex">1</span> /
+                <span id="totalCards">?</span>
+            </div>
+            <div style="width: 28px"></div>
+        </div>
+        <div id="pageTitle" class="d-flex justify-content-between w-100">
+            <h1 class="mb-0 mt-2">{{ object.title }}</h1>
+        </div>
+
+    </div>
+    <div id="completionBanner" class="d-none">
+        <h1 class="mt-2">Congratulations!</h1>
+        <p>You have finished assessing the deck. You can now study it.</p>
+    </div>
+</div>
+
+{% include 'card_slider_base.html' with cards=cards mode="assess" %}
+
+<!-- Controls hint -->
+<div id="deckStudyControlsHint" class= "d-flex align-items-center gap-1
+alert alert-warning alert-dismissible fade show bg-dark text-light border border-secondary mt-3 p-2 ps-4" role="alert">
+    <div class="p-0 m-0 d-inline-flex align-items-center gap-1">
+        <img src="{% static 'cards/left-key.svg' %}" alt="left" width="35px">
+        <img src="{% static 'cards/right-key.svg' %}" alt="left" width="35px">
+        for navigation,
+    </div>
+    <div class="p-0 m-0 d-inline-flex align-items-center gap-1">
+        <img src="{% static 'cards/space-key.svg' %}" alt="left" width="35px"> for hints and
+    </div>
+    <div class="p-0 m-0 d-inline-flex align-items-center gap-1">
+        <img src="{% static 'cards/one.svg' %}" alt="left" width="35px">
+        <img src="{% static 'cards/two.svg' %}" alt="left" width="35px">
+        <img src="{% static 'cards/three.svg' %}" alt="left" width="35px">
+        for word options
+    </div>
+    <button type="button" class="btn-close btn-close-white position-static ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+<!-- Controls -->
+<div id="deckStudyControls" class="d-flex justify-content-between mt-3">
+
+    <button id="prevBtn" class="prev_btn btn btn-outline-secondary px-4">
+        ← Prev
+    </button>
+    <div class="d-flex gap-2">
+        <button id="wordOptionBtn1" class=" p-0 btn btn-outline-danger px-4">
+            <span>✕ Don't know</span>
+        </button>
+        <button id="wordOptionBtn2" class="p-0 btn btn-outline-warning px-4">
+            <span>± Not sure</span>
+        </button>
+        <button id="wordOptionBtn3" class=" p-0 btn btn-outline-success px-4">
+            <span>✓ Know</span>
+        </button>
+        <button id="showBtn" class="p-0 btn btn-outline-light px-4">
+            <span>? Show</span>
+        </button>
+    </div>
+     <button id="nextBtn" class="btn next_btn btn-outline-secondary px-4">
+        Next →
+    </button>
+</div>
+
+{% endblock content %}
+
+{% block javascripts %}
+    <script src="{% static 'js/deck_study_scipt.js' %}" ></script>
+{% endblock javascripts %}

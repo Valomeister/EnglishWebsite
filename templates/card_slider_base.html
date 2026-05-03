@@ -1,0 +1,53 @@
+<!-- Cards -->
+<div id="flashcards-container" data-deck-id="{{ deck.id }}" data-mode="{{ mode }}">
+
+{% for card in cards %}
+    {% if card.user_progress.0.mastery != 100 %}
+        <div class="flashcard-wrapper {% if not forloop.first %}d-none{% endif %}"
+                data-mastery="{{ card.user_progress.0.mastery }}"
+                data-option1="{{ card.mastery_options.0 }}"
+                data-option2="{{ card.mastery_options.1 }}"
+                data-option3="{{ card.mastery_options.2 }}"
+                data-card-id="{{ card.pk }}"
+        >
+            <div class="card flashcard bg-dark text-light border border-light border-opacity-25 rounded shadow-sm
+                    {% if card.user_progress.0.mastery == 100 %}
+                        deck_card_good_mastery
+                    {% elif card.user_progress.0.mastery == 0 %}
+                        deck_card_bad_mastery
+                    {% elif card.user_progress.0.mastery != None %}
+                        deck_card_medium_mastery
+                    {% endif %}
+                ">
+
+                <!-- always visible -->
+                <div class="card-header row align-items-center bg-black py-3 ms-0 w-100 rounded-top">
+                    <span class="col">&nbsp;</span>
+                    <h2 class="col m-0 text-center">{{ card.word }}</h2>
+                    <span class="col text-end fw-bold
+                            {% if card.user_progress.0.mastery == None %}
+                                invisible
+                            {% endif %}"
+                            >
+                        <span class="current_card_mastery">
+                            {{ card.user_progress.0.mastery }}</span>%
+                    </span>
+                </div>
+
+                <!-- hidden initially -->
+                <div class="card-body flashcard-content d-none text-center">
+
+                    <h4 class="fw-bold mb-3">
+                        {{ card.translation }}
+                    </h4>
+
+                    <div class="opacity-75">
+                        {{ card.description }}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endfor %}
+</div>

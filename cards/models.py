@@ -1,3 +1,6 @@
+from doctest import master
+
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from accounts.models import CustomUser
 
@@ -29,9 +32,24 @@ class Card(models.Model):
     translation = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
     deck = models.ForeignKey(Deck, on_delete=models.CASCADE, related_name='cards')
+    users = models.ManyToManyField(CustomUser, through='CardProgress',  related_name='cards_progress')
 
     def __str__(self):
         return f'{self.word} - {self.translation}'
 
     class Meta:
         ordering = ['id']
+
+
+class CardProgress(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    card = models.ForeignKey(Card, on_delete=models.CASCADE)
+
+    mastery = models.SmallIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])
+    last_inputs = models.JSONField(default=list)
+
+    def __str__(self):
+        return f'{self.user.username} <-> {self.card.word} | {self.mastery} | {self.last_inputs}'
+
+    class Meta:
+        unique_together = ('user', 'card')

@@ -8,7 +8,14 @@
 
     <!-- deck form -->
 
-    <div class="py-5 d-flex flex-column gap-3">
+    <div class="d-flex justify-content-between w-100 mb-4 align-items-center">
+        <a href="{% url 'deck_list' %}" class="back_link"><img src="{% static 'cards/arrow-back.svg' %}" width="28px" alt="icon"></a>
+        <button type="button" class="btn btn-link p-0 border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#jsonModal" data-id="{{ object.pk }}">
+            <img src="{% static 'cards/json.svg' %}" width="30px" alt="icon">
+        </button>
+    </div>
+
+    <div class="my-5 d-flex flex-column gap-3">
         {% for field in form %}
             <div class="field_wrapper d-flex flex-column gap-1">
                 <label for="{{ field.id_for_label }}" class="">{{field.label}}</label>
@@ -150,4 +157,28 @@
     </div>
 
 </template>
+
+<div class="modal fade" id="jsonModal">
+    <div class="modal-dialog">
+        <div class="modal-content bg-black border-light ">
+            <div class="modal-body">
+                <h2>Create deck with JSON</h2>
+                <p>This can be useful to edit decks quickly with AI</p>
+                <textarea name="json_edit" id="json_edit" class="json_edit"></textarea>
+            </div>
+            <div class="modal-footer border-0 ">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cancel
+                </button>
+                <button id="apply_json" class="btn btn-success" data-bs-dismiss="modal" data-deck-id="{{ pk }}">Apply</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 {% endblock content %}
+
+{% block javascripts %}
+    <script type="module" src="{% static 'js/deck_edit_script.js' %}" ></script>
+{% endblock javascripts %}

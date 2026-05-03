@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}<title>Deck edit</title>{% endblock title %}
+
 {% block content %}
 
 <form method="post">
@@ -9,13 +11,17 @@
     <!-- deck form -->
 
     <div class="my-5 d-flex flex-column gap-3">
-        <a href="{% url 'deck_detail' pk %}" class="mb-4"><img src="{% static 'cards/arrow-back.svg' %}" width="28px" alt="icon"></a>
+        <div class="d-flex justify-content-between w-100 mb-4 align-items-center">
+            <a href="{% url 'deck_detail' pk %}" class="back_link"><img src="{% static 'cards/arrow-back.svg' %}" width="28px" alt="icon"></a>
+            <button type="button" class="btn btn-link p-0 border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#jsonModal" data-id="{{ object.pk }}">
+                <img src="{% static 'cards/json.svg' %}" width="30px" alt="icon">
+            </button>
+        </div>
         {% for field in form %}
             <div class="field_wrapper d-flex flex-column gap-1">
                 <label for="{{ field.id_for_label }}" class="">{{field.label}}</label>
                 {{ field }}
             </div>
-
         {% endfor %}
     </div>
     {{ formset.management_form }}
@@ -34,9 +40,6 @@
 
         {% include 'card_edit_form_template.html' with is_button=True %}
 
-        <div class="col col-3">
-
-        </div>
 
     </div>
 
@@ -47,9 +50,33 @@
     </div>
 </form>
 
+<div class="modal fade" id="jsonModal">
+    <div class="modal-dialog">
+        <div class="modal-content bg-black border-light ">
+            <div class="modal-body">
+                <h2>Edit deck via JSON</h2>
+                <p>This can be useful to edit decks quickly with AI</p>
+                <textarea name="json_edit" id="json_edit" class="json_edit"></textarea>
+                <p class="text-danger">Warning: applying JSON will lead to the reset of your progress!</p>
+            </div>
+            <div class="modal-footer border-0 ">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cancel
+                </button>
+                <button id="apply_json" class="btn btn-success" data-bs-dismiss="modal" data-deck-id="{{ pk }}">Apply</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 <!-- empty card template -->
 
 <template id="empty-form-template">
     {% include 'card_edit_form_template.html' with is_empty=True card=formset.empty_form %}
 </template>
 {% endblock content %}
+
+{% block javascripts %}
+    <script type="module" src="{% static 'js/deck_edit_script.js' %}" ></script>
+{% endblock javascripts %}
