@@ -29,7 +29,7 @@
 ### 1. Клонировать репозиторий
 
 ```bash
-git clone https://github.com/your_username/EnglishWebsite.git
+git clone https://github.com/Valomeister/EnglishWebsite.git
 cd EnglishWebsite
 ```
 
